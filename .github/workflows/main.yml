@@ -3,8 +3,11 @@ name: Build and Store Artifact
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
+    branches:
+      - master
+  workflow_dispatch:
 
 jobs:
   build:
@@ -17,7 +20,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' # or whatever your version is
+          node-version: '18'
 
       - name: Install dependencies
         run: npm install
