@@ -1,5 +1,6 @@
 name: Build and Deploy
 
+# ✅ This workflow triggers on any push or pull request to the master branch
 on:
   push:
     branches:
@@ -14,26 +15,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout repository code
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Setup Node.js environment
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
+      # Step 3: Install project dependencies
       - name: Install dependencies
         run: npm install
 
+      # Step 4: Build the project (optional)
       - name: Run Build (optional)
         run: npm run build || echo "No build script defined"
 
+      # Step 5: Package project and store as artifact
       - name: Create zip artifact
         run: |
           mkdir -p output
           zip -r output/fake-product-identification.zip .
 
-      - name: Upload artifact
+      - name: Upload artifact to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: project-package
@@ -44,20 +50,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 6: Checkout code again for deploy
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 7: Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
+      # Step 8: Install dependencies
       - name: Install dependencies
         run: npm install
 
+      # Step 9: Build project again for deployment
       - name: Build project
         run: npm run build || echo "No build step"
 
+      # Step 10: Use GitHub secret (example usage)
+      - name: Use Secret in Deployment
+        run: echo "Using secret key: ${MY_SECRET::4}..."
+        env:
+          MY_SECRET: ${{ secrets.MY_SECRET }}
+
+      # Step 11: Deploy built project to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
