@@ -31,10 +31,12 @@ jobs:
 
       # ✅ Step 4: Use GitHub secret in build step
       - name: Use Secret in Build
-        run: echo "Secret in build: ${MY_SECRET::4}..."
+        run: |
+              echo "Using secret in build step..."
+                echo "First 4 characters of secret: ${MY_SECRET:0:4}"
         env:
-          MY_SECRET: ${{ secrets.MY_SECRET }}
-
+            MY_SECRET: ${{ secrets.MY_SECRET }}
+    
       # Step 5: Build the project (optional)
       - name: Run Build (optional)
         run: npm run build || echo "No build script defined"
