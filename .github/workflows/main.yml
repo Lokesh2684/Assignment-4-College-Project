@@ -29,11 +29,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Build the project (optional)
+      # ✅ Step 4: Use GitHub secret in build step
+      - name: Use Secret in Build
+        run: echo "Secret in build: ${MY_SECRET::4}..."
+        env:
+          MY_SECRET: ${{ secrets.MY_SECRET }}
+
+      # Step 5: Build the project (optional)
       - name: Run Build (optional)
         run: npm run build || echo "No build script defined"
 
-      # Step 5: Package project and store as artifact
+      # Step 6: Package project and store as artifact
       - name: Create zip artifact
         run: |
           mkdir -p output
@@ -50,33 +56,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 6: Checkout code again for deploy
+      # Step 7: Checkout code again for deploy
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 7: Setup Node.js
+      # Step 8: Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      # Step 8: Install dependencies
+      # Step 9: Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Step 9: Build project again for deployment
-      - name: Build project
-        run: npm run build || echo "No build step"
-
-      # Step 10: Use GitHub secret (example usage)
-      - name: Use Secret in Deployment
-        run: echo "Using secret key: ${MY_SECRET::4}..."
-        env:
-          MY_SECRET: ${{ secrets.MY_SECRET }}
-
-      # Step 11: Deploy built project to GitHub Pages
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+      # Step 10: Build
