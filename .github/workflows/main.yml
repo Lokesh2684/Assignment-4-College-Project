@@ -1,6 +1,6 @@
 name: Build and Deploy
 
-# ✅ This workflow triggers on any push or pull request to the master branch
+# This workflow triggers on any push or pull request to the master branch
 on:
   push:
     branches:
@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # ✅ Step 4: Use GitHub secret in build step
+      # Step 4: Use GitHub secret in build step
       - name: Use Secret in Build
         run: |
               echo "Using secret in build step..."
