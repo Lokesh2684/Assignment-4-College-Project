@@ -71,5 +71,3 @@ jobs:
       # Step 9: Install dependencies
       - name: Install dependencies
         run: npm install
-
-      # Step 10: Build
